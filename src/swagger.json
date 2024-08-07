@@ -1,0 +1,674 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "API Documentation",
+    "description": "Documentação da API",
+    "termsOfService": "http://localhost:3000/terms",
+    "contact": {
+      "email": "CO2Lab@exemplo.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "API de test"
+    }
+  ],
+  "paths": {
+    "/usuario": {
+      "post": {
+        "summary": "Cria um novo usuário",
+        "description": "Cria um novo usuário na aplicação",
+        "requestBody": {
+          "description": "Dados do usuário para criação",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "date_nasc": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "cpf": {
+                    "type": "string"
+                  },
+                  "rg": {
+                    "type": "number"
+                  },
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                }
+              },
+              "examples": {
+                "usuario": {
+                  "value": {
+                    "name": "Gustavo Codeço9",
+                    "date_nasc": "2024-10-29",
+                    "cpf": "14056873219",
+                    "rg": 246602219,
+                    "username": "Gcodeco29",
+                    "password": "Codeco36912524S29",
+                    "email": "Codeco.gcs@gmail.com29"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Usuário criado com sucesso",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "success": {
+                    "value": {
+                      "message": "Usuário criado com sucesso",
+                      "id": "123456"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "error": {
+                    "value": {
+                      "message": "Dados inválidos"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/usuario/autenticar": {
+      "post": {
+        "summary": "Autentica um usuário",
+        "description": "Autentica um usuário e retorna um token JWT",
+        "requestBody": {
+          "description": "Dados de login do usuário",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              },
+              "examples": {
+                "usuario/autenticar": {
+                  "value": {
+                    "email": "Codeco.gcs@gmail.com29",
+                    "password": "Codeco36912524S29"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Token JWT gerado com sucesso",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "token": {
+                    "value": {
+                      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciais inválidas",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "error": {
+                    "value": {
+                      "message": "Credenciais inválidas"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/usuario/{id}/balance": {
+      "get": {
+        "summary": "Obtém o saldo do usuário",
+        "description": "Retorna o saldo do usuário com base no ID fornecido",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID do usuário",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Saldo obtido com sucesso",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "balance": {
+                    "value": {
+                      "id": "1",
+                      "balance": 100.5
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "error": {
+                    "value": {
+                      "message": "Usuário não encontrado"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/desafio/create": {
+      "post": {
+        "summary": "Cria um novo desafio",
+        "description": "Cria um novo desafio na aplicação",
+        "requestBody": {
+          "description": "Dados do desafio para criação",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "escolhaDoUsuarioCriador": {
+                    "type": "string"
+                  },
+                  "valorDaAposta": {
+                    "type": "number"
+                  }
+                }
+              },
+              "examples": {
+                "desafio": {
+                  "value": {
+                    "id": "1",
+                    "escolhaDoUsuarioCriador": "pedra",
+                    "valorDaAposta": 50
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Desafio criado com sucesso",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "success": {
+                    "value": {
+                      "message": "Desafio criado com sucesso"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "error": {
+                    "value": {
+                      "message": "Dados inválidos"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/aceitarDesafio": {
+      "post": {
+        "summary": "Aceita um desafio",
+        "description": "Aceita um desafio existente",
+        "requestBody": {
+          "description": "Dados para aceitar um desafio",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "idAceitou": {
+                    "type": "number"
+                  },
+                  "idDesafio": {
+                    "type": "number"
+                  },
+                  "escolhaDoUsuarioAceitou": {
+                    "type": "string"
+                  }
+                }
+              },
+              "examples": {
+                "aceitarDesafio": {
+                  "value": {
+                    "idAceitou": 2,
+                    "idDesafio": 1,
+                    "escolhaDoUsuarioAceitou": "tesoura"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Desafio aceito com sucesso",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "success": {
+                    "value": {
+                      "message": "Desafio aceito com sucesso"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "error": {
+                    "value": {
+                      "message": "Dados inválidos"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/buscarDesafios": {
+      "get": {
+        "summary": "Busca desafios",
+        "description": "Retorna uma lista de desafios disponíveis",
+        "responses": {
+          "200": {
+            "description": "Lista de desafios",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "desafios": {
+                    "value": [
+                      {
+                        "id": "1",
+                        "escolhaDoUsuarioCriador": "pedra",
+                        "valorDaAposta": 50
+                      },
+                      {
+                        "id": "2",
+                        "escolhaDoUsuarioCriador": "papel",
+                        "valorDaAposta": 100
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/usuario/MaioresApostadores": {
+      "get": {
+        "summary": "Obtém os maiores apostadores",
+        "description": "Retorna uma lista dos maiores apostadores",
+        "responses": {
+          "200": {
+            "description": "Lista de maiores apostadores",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "maioresApostadores": {
+                    "value": [
+                      {
+                        "id": "1",
+                        "name": "Gustavo Codeço9",
+                        "totalApostado": 5000
+                      },
+                      {
+                        "id": "2",
+                        "name": "João Silva",
+                        "totalApostado": 4500
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maioresApostas": {
+      "get": {
+        "summary": "Obtém as maiores apostas",
+        "description": "Retorna uma lista das maiores apostas",
+        "responses": {
+          "200": {
+            "description": "Lista de maiores apostas",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "maioresApostas": {
+                    "value": [
+                      {
+                        "id": "1",
+                        "valor": 1000,
+                        "usuarioId": "1"
+                      },
+                      {
+                        "id": "2",
+                        "valor": 950,
+                        "usuarioId": "2"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maioresGanhadores": {
+      "get": {
+        "summary": "Obtém os maiores ganhadores",
+        "description": "Retorna uma lista dos maiores ganhadores",
+        "responses": {
+          "200": {
+            "description": "Lista de maiores ganhadores",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "maioresGanhadores": {
+                    "value": [
+                      {
+                        "id": "1",
+                        "name": "Gustavo Codeço9",
+                        "totalGanho": 5000
+                      },
+                      {
+                        "id": "2",
+                        "name": "João Silva",
+                        "totalGanho": 4500
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/apostas/{id}": {
+      "get": {
+        "summary": "Consulta apostas por usuário",
+        "description": "Retorna uma lista de apostas para um usuário específico",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID do usuário",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de apostas do usuário",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "apostas": {
+                    "value": [
+                      {
+                        "id": "1",
+                        "desafioId": "1",
+                        "valor": 100
+                      },
+                      {
+                        "id": "2",
+                        "desafioId": "2",
+                        "valor": 200
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Apostas não encontradas",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "error": {
+                    "value": {
+                      "message": "Apostas não encontradas"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/apostas": {
+      "post": {
+        "summary": "Cria uma nova aposta",
+        "description": "Cria uma nova aposta na aplicação",
+        "requestBody": {
+          "description": "Dados da aposta para criação",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "usuarioId": {
+                    "type": "string"
+                  },
+                  "desafioId": {
+                    "type": "string"
+                  },
+                  "valor": {
+                    "type": "number"
+                  }
+                }
+              },
+              "examples": {
+                "aposta": {
+                  "value": {
+                    "usuarioId": "1",
+                    "desafioId": "1",
+                    "valor": 100
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Aposta criada com sucesso",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "success": {
+                    "value": {
+                      "message": "Aposta criada com sucesso"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "error": {
+                    "value": {
+                      "message": "Dados inválidos"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/apostas/resultado": {
+      "put": {
+        "summary": "Atualiza o resultado da aposta",
+        "description": "Atualiza o resultado de uma aposta existente",
+        "requestBody": {
+          "description": "Dados para atualização do resultado da aposta",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "apostaId": {
+                    "type": "string"
+                  },
+                  "resultado": {
+                    "type": "string"
+                  }
+                }
+              },
+              "examples": {
+                "resultado": {
+                  "value": {
+                    "apostaId": "1",
+                    "resultado": "ganhou"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Resultado da aposta atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "success": {
+                    "value": {
+                      "message": "Resultado da aposta atualizado com sucesso"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "error": {
+                    "value": {
+                      "message": "Dados inválidos"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ]
+}

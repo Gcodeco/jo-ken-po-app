@@ -1,0 +1,148 @@
+Aterações Feitas 28/06/2024
+
+1- Adicionar valorDaAposta no corpo da requisição para as funções create e aceitarDesafio.
+
+2-Validar o valor da aposta para garantir que esteja entre 10 e 10.000.
+
+3-Incluir o valor da aposta ao criar um novo desafio e verificar se o valor da aposta não foi alterado ao aceitar um desafio.
+
+4-Função validarAposta:
+
+Recebe valorDaAposta como argumento.
+Lança uma exceção se o valor estiver fora do intervalo permitido.
+
+5- Controlador DesafioController:
+
+Chama validarAposta nas funções create e aceitarDesafio antes de prosseguir com a lógica principal.
+Tratar a exceção lançada por validarAposta e retornar a mensagem de erro adequada ao cliente.
+
+6- Função verificarValorAposta:
+
+Recebe o desafio, o valor da aposta e a resposta do Express (res) como argumentos.
+Verifica se o valor da aposta corresponde ao valor original no desafio.
+Retorna false e envia uma resposta de erro se os valores não corresponderem; caso contrário, retorna true.
+
+
+
+
+Se verificarValorAposta retornar false, a função aceitarDesafio retorna imediatamente com um status de erro 400, evitando a execução adicional desnecessária.
+
+7- Função usuarioComMaisApostas:
+
+Busca todos os usuários.
+Conta o número de apostas criadas e aceitas por cada usuário.
+Identifica o usuário com o maior número total de apostas.
+
+8-Rota para a nova função:
+
+Adicionada a rota GET /usuarioComMaisApostas no arquivo de rotas do Express.
+
+
+9-Função maioresApostas:
+
+Busca as apostas (desafios) ordenadas pelo valor da aposta em ordem decrescente.
+Limita os resultados a um determinado número, como os 10 maiores valores de aposta.
+
+10-Rota para a nova função:
+
+Adicionada a rota GET /maioresApostas no arquivo de rotas do Express.
+
+
+11- Função maioresGanhadores:
+
+Busca todos os usuários.
+Conta o número de vitórias (desafios ganhos) de cada usuário.
+Ordena os usuários pelo número de vitórias em ordem decrescente.
+Limita os resultados aos 5 maiores ganhadores.
+
+12- Função consultarApostasPorUsuario:
+
+Recebe o ID do usuário a partir dos parâmetros da solicitação (req.params).
+Busca o usuário pelo ID.
+Se o usuário não for encontrado, retorna um erro 404.
+Busca todas as apostas criadas e aceitas pelo usuário.
+Retorna todas as apostas encontradas.
+
+13-Nova Rota:
+
+Rota GET /apostas/:userId que chama a função consultarApostasPorUsuario do controlador DesafioController.
+
+14- Entidade Usuario:
+
+Adiciona o campo moeda com um valor numérico e um valor padrão de 1000.
+
+15- Rota do Express:
+
+Adiciona uma rota POST /usuarios para criar novos usuários.
+
+
+16 -Adicionei ESLint com padrão Standard
+17-AdicioneiPrettier e configurou formatação
+18-AdicioneiTypecheck ao projeto
+19-AdicioneiHusky para hooks de Git
+20-AdicioneiCommitizen e Commitlint com configuração de commits padrão
+21-Adicionei.editorconfig para configuração de estilo de código
+22-Adicioneiarquivos de configuração do TypeORM
+23-Adicioneivalidação e máscara de CPF e data de nascimento no back-end
+24-Atualizei repositório e as entidades com novas funcionalidades
+25-Adicionou comandos de migração ao TypeORM
+26-Configurei .cz-config.js para Commitizen
+
+
+
+
+
+--------------------- |19/07| --------------------
+fix: tratar casos de erro no método aceitarDesafio
+
+- Garantir que idAceitou e idDesafio são fornecidos na requisição
+- Validar a presença do usuário e do desafio antes de prosseguir
+- Verificar se valorDaAposta está definido
+- Validar se o usuário tem moeda suficiente para aceitar o desafio
+- Capturar e tratar erros inesperados para retornar status e mensagens apropriadas
+--------------------- |19/07| --------------------
+"test: adicionar testes unitários para DesafioController
+
+- Criar testes para o método 'create' de DesafioController, incluindo casos de sucesso, usuário não encontrado, valor de aposta inválido e erro de servidor
+- Adicionar testes para o método 'maioresApostadores', incluindo casos de sucesso, nenhum apostador encontrado e erro de servidor
+- Adicionar testes para o método 'aceitarDesafio', incluindo verificações para IDs ausentes, usuário/desafio não encontrados, valor de aposta não definido e moeda insuficiente"
+--------------------- |19/07| --------------------
+Adicionar testes unitários abrangentes para DesafioController
+
+- Implementados testes unitários para o método `create` do `DesafioController`:
+  - Testar a criação de um novo desafio com dados válidos.
+  - Testar erro 404 quando o usuário não é encontrado.
+  - Testar erro 400 quando o valor da aposta é inválido.
+  - Testar erro 500 quando há um erro de servidor.
+
+- Implementados testes unitários para o método `maioresApostadores` do `DesafioController`:
+  - Testar a recuperação dos 3 maiores apostadores com resultados de consulta simulados.
+  - Testar erro 404 quando nenhum apostador é encontrado.
+  - Testar erro 500 quando há um erro de servidor.
+
+- Implementados testes unitários para o método `aceitarDesafio` do `DesafioController`:
+  - Testar erro 400 quando `idAceitou` ou `idDesafio` não são fornecidos.
+  - Testar erro 404 quando o usuário não é encontrado.
+  - Testar erro 404 quando o desafio não é encontrado.
+  - Testar erro 400 quando o valor da aposta está indefinido.
+  - Testar erro 400 quando o usuário não tem moeda suficiente para aceitar o desafio.
+
+- Adicionados mocks apropriados para `UsuarioRepository` e `DesafioRepository`.
+
+- Atualizados os dados mock e ajustadas as expectativas para alinhar com a lógica atual dos métodos do controlador.
+
+- Adicionada configuração e limpeza necessária para garantir estados limpos entre os testes.
+
+
+- Implementados testes unitários para o método `aceitarDesafio` do `DesafioController`:
+  - Testar erro 400 quando `idAceitou` ou `idDesafio` não são fornecidos.
+  - Testar erro 404 quando o usuário não é encontrado.
+  - Testar erro 404 quando o desafio não é encontrado.
+  - Testar erro 400 quando o valor da aposta está indefinido.
+  - Testar erro 400 quando o usuário não tem moeda suficiente para aceitar o desafio.
+
+- Adicionados mocks apropriados para `UsuarioRepository` e `DesafioRepository`.
+
+- Atualizados os dados mock e ajustadas as expectativas para alinhar com a lógica atual dos métodos do controlador.
+
+- Adicionada configuração e limpeza necessária para garantir estados limpos entre os testes.
